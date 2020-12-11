@@ -1,9 +1,9 @@
-* 前端技术栈
-  * [HTML](html/index.md)
-  * [CSS](css/index.md)
-  * [JavaScript](javascript/index.md)
-  * [TypeScript](typescript/index.md)
-  * [React技术栈](react/index.md)
+* [JavaScript](/)
+* [CSS](css/index.md)
+* [HTML](html/index.md)
+* [TypeScript](typescript/index.md)
+* [React技术栈](react/index.md)
+* 更多
   * [NodeJs](nodejs/index.md)
   * [前端工程化](engineering/index.md)
   * [前端图形学](graphics/index.md)
