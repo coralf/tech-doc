@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <div id="container"></div>
+
+
+  <script>
+    const container = document.getElementById('container');
+    for (let i = 0; i < 1000; i++) {
+      const child = document.createElement('div');
+      child.innerHTML = i;
+      container.appendChild(child);
+    }
+
+
+
+    // function throttle() {
+    //   const timer = setTimeout(() => {
+    //     console.log('=>>');
+
+    //     clearTimeout(timer);
+    //   }, 2000);
+    // }
+
+    const throttle = (function () {
+      let timer = null;
+      return function (seconds) {
+        if (timer === null) {
+          timer = setTimeout(() => {
+            console.log('=>>');
+            clearTimeout(timer);
+            timer = null;
+          }, seconds);
+        }
+      }
+    })();
+
+
+
+    window.addEventListener('scroll', (e) => {
+      throttle(500);
+    });
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>

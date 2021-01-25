@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+
+
+  <script>
+
+
+
+    const antShaking = (function () {
+      let timer = null;
+      return function (seconds) {
+        if (timer === null) {
+          console.log('=>>')
+        } else {
+          if (new Date().getTime() - timer > seconds) {
+            console.log('=>>x');
+          }
+        }
+        timer = new Date().getTime();
+      }
+    })();
+
+
+
+    window.addEventListener('click', (e) => {
+
+      antShaking(1000);
+
+    });
+
+
+
+
+  </script>
+
+</body>
+
+</html>

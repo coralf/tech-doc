@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <script>
+    var evtype = 'react-event-callback';
+    var react = document.createElement('react');
+    react.addEventListener(evtype, function (e) {
+      console.log('call Back');
+    });
+    var ev = document.createEvent('Event');
+    ev.initEvent(evtype, false, false);
+    react.dispatchEvent(ev);
+  </script>
+
+
+
+</body>
+
+</html>
