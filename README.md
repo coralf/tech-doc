@@ -4,7 +4,7 @@
    npm i docsify-cli -g
 ```
 
-## To Preview docs
+## To Preview
 ```
    docsify serve docs
 ```
