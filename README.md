@@ -1,12 +1,12 @@
-# Front-End Tec
+# Front-End Technology Stack 
 ## If you haven't intalled docsify ?
 ```
    npm i docsify-cli -g
 ```
 
-## preview
+## Preview
 ```
    docsify serve docs
 ```
-## reference
+## Reference
 https://docsify.js.org/#/zh-cn/quickstart
