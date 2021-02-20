@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <script>
+
+    function test(...param) {
+      console.log(param);
+    }
+    Reflect.apply(test, null, [1, 2, 3]);
+
+
+
+
+    const obj = {
+      _name: 'xxx'
+    };
+    Reflect.defineProperty(obj, 'name', {
+      enumerable: false,//是否可以使用for in 和Object.keys()
+      configurable: false,//是否可以被删除
+      writable: false,//可写
+      get() {
+        return this._name;
+      },
+      set(val) {
+        this._name = val;
+      }
+    })
+    obj.name = '90';
+    console.log(obj.name);
+
+
+
+
+
+
+  </script>
+
+</body>
+
+</html>
