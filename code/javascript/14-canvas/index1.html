@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    canvas {
+      box-shadow: 2px 2px 8px #000;
+    }
+  </style>
+</head>
+
+<body>
+  <canvas id='canvas' width='800' height='600'></canvas>
+
+
+
+  <script src='./utils.js'></script>
+  <script>
+    const canvas = document.querySelector('#canvas');
+    const ctx = canvas.getContext('2d');
+
+    function clearCanvas() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    }
+
+
+    const balls = [];
+    for (let i = 0; i < 10; i++) {
+      const x = getRandomNumber(0, canvas.width * 0.9);
+      const y = getRandomNumber(0, canvas.height * 0.9);
+      const r = getRandomNumber(20, 50);
+      const ball = new Ball(canvas, x, y, r, getRandomColor());
+      ball.draw();
+      balls.push(ball);
+    }
+
+    let isDown = false;
+    let currentBall = null;
+    canvas.addEventListener('mousedown', function (e) {
+      if (!isDown) isDown = true;
+      const { x, y } = toWindowPosition(canvas, e.clientX, e.clientY);
+      const filterBalls = balls.filter(ball => Math.abs(getDistance(ball.x, ball.y, x, y)) < ball.r);
+      let dis = Number.MAX_VALUE;
+      for (let i = 0; i < filterBalls.length; i++) {
+        const ball = filterBalls[i];
+        const currDis = Math.abs(getDistance(ball.x, ball.y, x, y));
+        if (currDis < dis) {
+          currentBall = ball;
+          dis = currDis;
+        }
+      }
+      currentBall && currentBall.selected(x, y);
+    });
+
+    canvas.addEventListener('mouseup', function (e) {
+      if (isDown) isDown = false;
+      currentBall && currentBall.unSelected();
+    });
+
+    canvas.addEventListener('mousemove', function (e) {
+      if (isDown && currentBall && currentBall.isSelected) {
+        clearCanvas();
+        for (let i = 0; i < balls.length; i++) {
+          const ball = balls[i];
+          if (ball !== currentBall) {
+            ball.draw();
+          }
+        }
+        const { x, y } = toWindowPosition(canvas, e.clientX, e.clientY);
+        const { dx, dy } = getDxy(x, y, currentBall.lastLocation.x, currentBall.lastLocation.y);
+        currentBall.updateLocation(currentBall.x + dx, currentBall.y + dy);
+        currentBall.draw();
+        currentBall.setLastLocation(x, y);
+      }
+    });
+
+  </script>
+</body>
+
+</html>

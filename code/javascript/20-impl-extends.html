@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <script>
+    //原型链
+    /*     function SuperType() {
+          this.sname = 'sname';
+        }
+    
+        SuperType.prototype.getSname = function () {
+          return this.sname;
+        }
+    
+    
+        function ChildType() {
+          this.cname = 'cname';
+        }
+    
+        ChildType.prototype = new SuperType();
+        ChildType.prototype.getCname = function () {
+          return this.cname;
+        }
+    
+        const c = new ChildType();
+        console.log('c.cname :>> ', c.cname);
+        console.log('c.sname :>> ', c.sname);
+        console.log('c.getCname() :>> ', c.getCname());
+        console.log('c.getSname() :>> ', c.getSname()); */
+
+    /*     //盗用构造函数
+        function SuperType(name) {
+          this.name = name;
+          this.sayName=function(){
+            console.log('this.name :>> ', this.name);
+          }
+        }
+    
+        function Child() {
+          SuperType.call(this, 'Allen');
+          this.age = 3;
+          console.log('this.name,this.gender :>> ', this.name);
+          this.sayName();
+        }
+    
+        const child = new Child(); */
+
+
+
+
+    /*     function SuperType() {
+          this.sname = 'sname';
+          this.color = ['red', 'green', 'blue'];
+        }
+    
+    
+        SuperType.prototype.saySname = function () {
+          console.log('this.sname :>> ', this.sname);
+        }
+    
+    
+    
+        function ChildType() {
+          SuperType.call(this);
+          this.cname = 'cname';
+        }
+        ChildType.prototype = new SuperType();
+        // ChildType.prototype.constructor = ChildType;
+        const child = new ChildType();
+        console.log(child instanceof ChildType);
+        console.log('child.cname :>> ', child.cname);
+        console.log('child.sname :>> ', child.sname);
+        child.saySname();
+     */
+
+    /*
+        function object(o) {
+          const F = function () { };
+          F.prototype = o;
+          return new F();
+        }
+
+        const person = {
+          name: 'zhangsan',
+          age: 18,
+          friends: ['a', 'b', 'b']
+        };
+
+        const person1 = object(person);
+        person1.friends.push('c');
+        const person2 = object(person);
+        person2.friends.push('d');
+        console.log('person1 :>> ', person1.friends);//["a", "b", "b", "c", "d"]
+        console.log('person2 :>> ', person2.friends);//["a", "b", "b", "c", "d"] */
+
+
+
+    /*     const person = {
+          name: 'zhangsan',
+          age: 18,
+          friends: ['a', 'b', 'b']
+        };
+    
+        const person1 = Object.create(person);
+        person1.friends.push('c');
+        const person2 = Object.create(person);
+        person2.friends.push('d');
+        console.log('person1 :>> ', person1.friends);//["a", "b", "b", "c", "d"]
+        console.log('person2 :>> ', person2.friends);//["a", "b", "b", "c", "d"]  */
+
+    /* function object(o) {
+      const F = function () { };
+      F.prototype = o;
+      return new F();
+    }
+
+    function inheritPrototype(sub, sup) {
+      let prototype = object(sup.prototype);
+      sub.prototype = prototype;
+      sub.prototype.constructor = sub;//修正子类的constructor
+    }
+
+    function SuperType(name) {
+      this.name = name;
+      this.colors = ["red", "blue", "green"];
+    }
+    SuperType.prototype.sayName = function () {
+      console.log(this.name);
+    };
+    function SubType(name, age) {
+      SuperType.call(this, name);
+      this.age = age;
+    }
+    inheritPrototype(SubType, SuperType);
+    SubType.prototype.sayAge = function () {
+      console.log(this.age);
+    };
+
+    const sub = new SubType('zhangsan', 1);
+    sub.colors.push('black');
+    console.log('sub.name,sub.age,sub.color :>> ', sub.name, sub.age, sub.colors);
+    sub.sayName();
+    const sub1 = new SubType('zhangsan1', 2);
+    console.log('sub.name,sub.age,sub.color :>> ', sub.name, sub.age, sub.colors); */
+
+
+    /*  class SuperType {
+       constructor(name) {
+         this.name = name;
+         this.colors = ['red', 'green'];
+       }
+ 
+       doSomething() {
+         console.log('doSomething...');
+       }
+     }
+     class SubType extends SuperType {
+       constructor(name) {
+         super(name);
+         this.age = 1;
+       }
+     }
+     const sub = new SubType('zhangsan');
+     sub.colors.push('blue');
+     console.log('sub.name,sub.age,sub.colors :>> ', sub.name, sub.age, sub.colors);
+     sub.doSomething();
+ 
+     const sub1 = new SubType('lisi');
+     console.log('sub1.colors :>> ', sub1.colors); */
+
+    function SuperType() {
+      this.sname = 'sname';
+      this.color = ['red', 'green', 'blue'];
+    }
+    SuperType.prototype.saySname = function () {
+      console.log('this.sname :>> ', this, this.sname);
+    }
+    function ChildType() {
+      SuperType.call(this);
+      this.cname = 'cname';
+    }
+    ChildType.prototype = new SuperType();
+    // ChildType.prototype.constructor = ChildType;
+
+    const child = new ChildType();
+    console.log('child.cname :>> ', child.cname);
+    console.log('child.sname :>> ', child.sname);
+    child.saySname();
+
+    console.log('instance of ', child instanceof ChildType);
+    console.log('constructor of ', ChildType.prototype.constructor === ChildType);
+  </script>
+
+</body>
+
+</html>

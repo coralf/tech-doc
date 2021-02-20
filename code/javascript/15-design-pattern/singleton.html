@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+
+<body>
+
+
+  <script>
+    /*     class Person {
+          constructor() {
+            this.name = 'xxx';
+          }
+        }
+     */
+
+
+    /*     const getPerson = (function () {
+          let person = null;
+          return () => {
+            if (person === null) {
+              person = new Person();
+            }
+            return person;
+          }
+        })(); */
+
+    /* 
+    
+        const person = getPerson();
+    
+        const person1 = getPerson();
+    
+    
+        console.log('person :>> ', person === person1);
+    
+     */
+
+    /*     function Person() {
+          this.age = 'xxx';
+        }
+    
+    
+        Person.getInstance = (function () {
+          let instance = null;
+          return function () {
+            if (instance === null) {
+              instance = new Person();
+            }
+            return instance;
+          }
+        })();
+    
+    
+        console.log('Person.getInstance() :>> ', Person.getInstance());
+     */
+
+
+    /* 
+        const Person = (function () {
+          let instance = null;
+          function PersonInner(name) {
+            this.name = name;
+    
+            return instance || (instance = this);
+          }
+          return PersonInner;
+        })();
+    
+        const person1 = new Person('p1');
+        const person2 = new Person('p2');
+    
+        console.log('person1===person2 :>> ', person1 === person2); */
+
+    /* 
+        function Person(name) {
+          this.name = name;
+        }
+    
+    
+    
+    
+        const ProxySingleton = (function () {
+          let instance = null;
+          return function () {
+            return instance || (instance = new Person());
+          }
+        })(); */
+
+
+    // console.log('Proxy :>> ', new ProxySingleton() === new ProxySingleton());
+
+    /*     function Person() {
+    
+        } */
+
+
+    function createDialog() {
+      const div = document.createElement('div');
+      div.style.position = 'absolute';
+      div.style.top = '50px';
+      div.style.left = '50px';
+      div.style.width = '200px';
+      div.style.height = '200px';
+      div.style.backgroundColor = '#a00';
+      return div;
+    }
+
+    const ProxyDiv = (function () {
+      let dialog = null;
+      return function () {
+        if (dialog === null) {
+          dialog = new createDialog();
+        }
+        return dialog;
+      }
+    })();
+
+    const div = new ProxyDiv();
+
+    document.body.appendChild(div);
+    const div1 = new ProxyDiv();
+
+    div1.style.top = '500px'
+    document.body.appendChild(div1);
+
+
+
+
+    function Person() {
+      this.age = 18;
+
+      return {};
+    }
+
+
+
+    console.log('new Person :>> ', new Person());
+
+
+
+
+
+  </script>
+
+
+</body>
+
+</html>

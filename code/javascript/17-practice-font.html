@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0
+    }
+
+    #box {
+      line-height: 50px;
+      background-color: bisque;
+      height: 200px;
+    }
+  </style>
+</head>
+
+<body>
+
+
+
+  <div id='box'>
+    x
+  </div>
+
+
+
+  <script>
+
+    console.log('start')
+    for (let i = 0; i < 1000000000; i++) {
+      let x = i / 3;
+    }
+
+    console.log('end')
+
+
+    setTimeout(() => {
+      console.log('que');
+    })
+
+  </script>
+</body>
+
+</html>

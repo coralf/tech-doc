@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    canvas {
+      box-shadow: 2px 2px 8px #000;
+    }
+  </style>
+</head>
+
+<body>
+
+  <canvas id='canvas' width='800' height='600'> </canvas>
+
+
+  <script>
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+
+
+    function Ball(x, y, vx, vy, r, color) {
+      this.x = x;
+      this.y = y;
+      this.vx = vx;
+      this.vy = vy;
+      this.r = r;
+      this.color = color;
+      this.defaultVy = 1;
+    }
+
+
+    Ball.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.fill();
+    }
+    let balls = [],
+      colors = ['#227c9d', '#17c3b2', '#ffcb77', '#fef9ef', '#fe6d73', '#118ab2', '#06d6a0', '#ef476f', '#f9844a', '#90be6d', '#00b4d8', '#caf0f8', '#e76f51', '#457b9d'];
+    function getRandom(start, end) {
+      return Math.floor(Math.random() * end) + start;
+    }
+
+
+    let count = getRandom(50,60);
+    for (let i = 0; i < count; i++) {
+      const x = getRandom(0, canvas.width);
+      const vy = getRandom(-2, 2) || 1;
+      const vx = getRandom(-2, 2) || 1;
+      const r = getRandom(5, 10);
+      const color = colors[getRandom(0, colors.length)];
+      const ball = new Ball(x, getRandom(0, canvas.height - r), vx, vy, r, color);
+      balls.push(ball);
+    }
+
+
+
+    function Line(x1, y1, x2, y2, color) {
+      this.x1 = x1;
+      this.y1 = y1;
+      this.x2 = x2;
+      this.y2 = y2;
+      this.color = '#e76f51';
+    }
+
+
+    Line.prototype.draw = function () {
+      ctx.beginPath();
+      ctx.strokeStyle = this.color;
+      ctx.moveTo(this.x1, this.y1);
+      ctx.lineTo(this.x2, this.y2);
+      ctx.stroke();
+    }
+
+
+
+    function getDistance(x1, y1, x2, y2) {
+      return Math.floor(Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2)));
+    }
+
+
+
+    function step(timeStamp) {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < balls.length; i++) {
+        const ball = balls[i];
+        ball.draw();
+        ball.y += ball.vy;
+        ball.x += ball.vx;
+        const toBall = balls.find(toBall => Math.abs(getDistance(toBall.x, toBall.y, ball.x, ball.y)) < 50);
+        const line = toBall && new Line(ball.x, ball.y, toBall.x, toBall.y);
+        line?.draw();
+        if (ball.y - ball.r > canvas.height) {
+          ball.vy = -ball.vy;
+        }
+        if (ball.y + ball.r < 0) {
+          ball.vy = Math.abs(ball.vy);
+        }
+        if (ball.x - ball.r > canvas.width) {
+          ball.vx = -ball.vx;
+        }
+        if (ball.x + ball.r < 0) {
+          ball.vx = Math.abs(ball.vx);
+        }
+      }
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  </script>
+</body>
+
+</html>

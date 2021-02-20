@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    html,
+    body {
+      padding: 0;
+      margin: 0;
+    }
+
+
+    #box {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: #e76f51;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id='box'></div>
+
+
+  <script>
+    const box = document.getElementById('box');
+    let dragging = false;
+    let trans, portrait;
+    document.addEventListener('mousedown', (e) => {
+      if (e.target === box) {
+        dragging = true;
+        const { left, top } = box.getBoundingClientRect();
+        trans = e.clientX - left;
+        portrait = e.clientY - top;
+      }
+    });
+    document.addEventListener('mousemove', (e) => {
+      if (dragging) {
+        const distance = {
+          dx: e.clientX - trans,
+          dy: e.clientY - portrait
+        };
+        box.style.left = distance.dx + 'px';
+        box.style.top = distance.dy + 'px';
+      }
+    });
+
+    document.addEventListener('mouseup', (e) => {
+      dragging = false;
+    });
+
+
+
+
+
+
+  </script>
+
+
+
+</body>
+
+</html>

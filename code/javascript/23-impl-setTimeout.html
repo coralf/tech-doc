@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+
+<body>
+
+  <script>
+    function mySetTimeout(exeFun, delay) {
+      let requestId = null;
+      function step(timeStamp) {
+        if (Math.floor(timeStamp) >= delay) {
+          if (Object.prototype.toString.call(exeFun) === '[object Function]') {
+            return exeFun.call(null);
+          }
+        }
+        requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    mySetTimeout(() => {
+      console.log('here')
+    }, 2000);
+
+
+  </script>
+
+
+
+
+
+
+</body>
+
+</html>
