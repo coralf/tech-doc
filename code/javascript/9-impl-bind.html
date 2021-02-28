@@ -2,62 +2,54 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 
 <body>
-  <script>
+    <script>
+    Function.prototype.mybind = function(otherThis) {
+        if (typeof this !== 'function') {
+            throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
+        }
+        var ArrayPrototypeSlice = Array.prototype.slice;
+        var baseArgs = ArrayPrototypeSlice.call(arguments, 1),
+            baseArgsLength = baseArgs.length,
+            fToBind = this,
+            fNOP = function() {},
+            fBound = function() {
+                baseArgs.length = baseArgsLength; // reset to default base arguments
+                baseArgs.push.apply(baseArgs, arguments);
+                return fToBind.apply(
+                    fNOP.prototype.isPrototypeOf(this) ? this : otherThis, baseArgs
+                );
+            };
+
+        if (this.prototype) {
+            fNOP.prototype = this.prototype;
+        }
+        fBound.prototype = new fNOP();
+
+        return fBound;
+
+    }
 
 
-
-
-
-
-
-
-    Function.prototype.mybind = function (otherThis) {
-      if (typeof this !== 'function') {
-        throw new TypeError('Function.prototype.bind - what is trying to be bound is not callable');
-      }
-      var ArrayPrototypeSlice = Array.prototype.slice;
-      var baseArgs = ArrayPrototypeSlice.call(arguments, 1),
-        baseArgsLength = baseArgs.length,
-        fToBind = this,
-        fNOP = function () { },
-        fBound = function () {
-          baseArgs.length = baseArgsLength; // reset to default base arguments
-          baseArgs.push.apply(baseArgs, arguments);
-          return fToBind.apply(
-            fNOP.prototype.isPrototypeOf(this) ? this : otherThis, baseArgs
-          );
+    Function.prototype.mybind1 = function(...args) {
+        const [target, ...rest] = args;
+        return (...param) => {
+            this.apply(target, [...(rest || []), ...param]);
         };
-
-      if (this.prototype) {
-        fNOP.prototype = this.prototype;
-      }
-      fBound.prototype = new fNOP();
-
-      return fBound;
-
     }
 
 
-    Function.prototype.mybind1 = function (...args) {
-      const [target, ...rest] = args;
-      return (...param) => {
-        this.apply(target, [...(rest || []), ...param]);
-      };
-    }
-
-
-    Function.prototype.myapply = function (ctx, ...param) {
-      const Fun = function () { };
-      Fun.prototype = ctx;
-      Fun.prototype.excuteFun = this;
-      const obj = new Fun();
-      obj.excuteFun(...param);
+    Function.prototype.myapply = function(ctx, ...param) {
+        const Fun = function() {};
+        Fun.prototype = ctx;
+        Fun.prototype.excuteFun = this;
+        const obj = new Fun();
+        obj.excuteFun(...param);
     }
 
 
@@ -65,26 +57,19 @@
     function test(...arg) {
 
 
-      console.log('=>', this.name, this.age, arg)
+        console.log('=>', this.name, this.age, arg)
     }
 
     const obj = {
-      name: 'xxx',
-      age: '12',
+        name: 'xxx',
+        age: '12',
     }
 
 
 
 
     test.myapply(obj, 1, 2, 3);
-
-
-
-
-
-
-
-  </script>
+    </script>
 </body>
 
 </html>

@@ -1,7 +1,7 @@
 # 数据类型
 
 ## 原始类型
-`string` `number` `boolean` `null` `undefined` `symbol`
+`string` `number` `boolean` `null` `undefined` `symbol` `bigInt`
 ## 对象类型
 `Date` `RegExp` `Global` `Math` `Map` `Set` `Object` `Array` `Boolean` `Number` `String` ...
 
@@ -164,7 +164,7 @@ Function.prototype.mycall = function (...args) {
 
 4、是否默认绑定到了全局对象。非严格模式var 声明的默认会绑定到全局对象上面。
 
-
+> 箭头函数的this指向与它的外层函数保持一致
 
 # 对象继承
 

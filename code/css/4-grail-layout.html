@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<style type="text/css">
+
+		*{margin:0; padding:0;}
+
+		/**圣杯布局**/
+
+		.gl-box{
+			padding:0 200px;
+		}
+
+		.gl-box::after{
+			content:'';
+			display:block;
+			clear:both;
+		}
+
+		.gl-box > div{
+			height:500px;
+			float:left;
+		}
+
+		.gl-box > .left,.right{
+			position:relative;
+			width:200px;
+		}
+
+		.gl-box > .left{
+			background-color:red;
+			margin-left:-100%;
+			left:-200px;
+		}
+
+		.gl-box > .right{
+			background-color:blue;
+			left:200px;
+			margin-left:-200px;
+		}
+
+		.gl-box > .middle{
+			width: 100%;
+			background-color:green;
+		}
+
+	</style>
+</head>
+
+
+<body>
+	
+	<div class="gl-box">
+		<div class="middle">m</div>
+		<div class="left">L</div>
+		<div class="right">R</div>	
+	</div>
+</body>
+</html>

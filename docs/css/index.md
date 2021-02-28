@@ -177,52 +177,32 @@ width的设置限定了border+padding+content，如果padding和border的增加�
 
 3、将父元素css设置为`display:flow-root`或者`overflow: hidden;`;
 
-
-
 ## flex
-
 > http://www.ruanyifeng.com/blog/2015/07/flex-grammar.html
 
 ## grid
-
 > http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html
 
 ## 几种经典布局方式
-
-
-
 > https://lhammer.cn/You-need-to-know-css/#/zh-cn/fluid-fixed
 
-
-
 # 定位
-
-
-
 > https://developer.mozilla.org/zh-CN/docs/Web/CSS/position
 
-
-
 # 字体
-
 > https://developer.mozilla.org/zh-CN/docs/Web/CSS/font
 
 # 圆角
-
 > https://developer.mozilla.org/zh-CN/docs/Web/CSS/border-radius
 
 # 边框
-
 > 边框 https://developer.mozilla.org/zh-CN/docs/Web/CSS/border
-
 > 轮廓 https://developer.mozilla.org/zh-CN/docs/Web/CSS/outline
 
 # 背景
-
 > https://developer.mozilla.org/zh-CN/docs/Web/CSS/background
 
 # 阴影
-
 > https://developer.mozilla.org/zh-CN/docs/Web/CSS/box-shadow
 
 # 渐变
@@ -236,15 +216,14 @@ width的设置限定了border+padding+content，如果padding和border的增加�
 > 重复径向渐变：https://developer.mozilla.org/zh-CN/docs/Web/CSS/repeating-radial-gradient()
 
 # 变换
-
 > https://developer.mozilla.org/zh-CN/docs/Web/CSS/transform
 
 # 滤镜
-
 > https://developer.mozilla.org/zh-CN/docs/Web/CSS/filter
 
-# 参考
+# 裁剪
+> https://developer.mozilla.org/en-US/docs/Web/CSS/clip-path
 
+# 参考
 > MDN : https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference
->
 > 你需要知道的css：https://lhammer.cn/You-need-to-know-css/#/zh-cn/
