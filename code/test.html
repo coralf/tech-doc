@@ -7,41 +7,10 @@
 
 <body>
     <script type="text/javascript">
-    /**
-        1、实现千分号
-        实现12345567.1234 => 12,345,567.1234
-    */
-    (() => {
-        function toPermil() {
-            const num = 12123456789.11111;
-            const [a, b] = (num + '').split('.');
-            let strNums = [];
-            for (let i = 0; i < a.length; i++) {
-                strNums.push(a[a.length - i - 1]);
-                if (((i + 1) % 3) === 0 && i < a.length - 1) {
-                    strNums.push(',');
-                }
-            }
-            return strNums.reverse().join('') + '.' + b;
-        }
-
-
-        function toPermil_v1() {
-            const num = 12123456789.11111;
-            const [a, b] = (num + '').split('.');
-            let strNums = [];
-            for (let i = 0; i < a.length; i++) {
-                strNums.push(a[a.length - i - 1]);
-                if (((i + 1) % 3) === 0 && i < a.length - 1) {
-                    strNums.push(',');
-                }
-            }
-            return strNums.reverse().join('') + '.' + b;
-        }
-
-        toPermil_v1();
-
-    })();
+    navigator.getBattery()
+        .then(res => {
+            console.log(res);
+        })
     </script>
 </body>
 
