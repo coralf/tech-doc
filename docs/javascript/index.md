@@ -286,6 +286,12 @@ Promise.then、MutationObserver、process.nextTick(Node.js)
 
 
 
+## 异常处理
+
+try 或 catch 块无法阻止 finally 块执行，包括 return 语句。
+
+
+
 
 
 

@@ -6,11 +6,31 @@
 </head>
 
 <body>
+    <button onclick="handleClick()">点我</button>
     <script type="text/javascript">
-    navigator.getBattery()
-        .then(res => {
-            console.log(res);
-        })
+    class Observer {
+
+        constructor() {
+            this.listeners = [];
+        }
+
+        on(listener) {
+            this.listeners.push(listener);
+        }
+
+        send(msg) {
+            this.listeners.forEach(listener => {
+                listener.call(null, msg);
+            });
+        }
+    }
+
+    const observer = new Observer();
+    observer.on((msg) => {
+        console.log('on=>', msg);
+    });
+
+    observer.send(i++);
     </script>
 </body>
 

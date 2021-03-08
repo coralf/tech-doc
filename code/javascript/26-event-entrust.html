@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+</head>
+
+<body>
+    <ul onclick="handleClick(event)">
+        <li id="a">a</li>
+        <li id="b">b</li>
+        <li id="c">c</li>
+    </ul>
+    <script type="text/javascript">
+    /*事件委托，利用将子元素的事件绑定到父元素中*/
+    function handleClick(e) {
+        const tar = e.target || event.target;
+        switch (tar.id) {
+            case 'a':
+                console.log('tar=>a');
+                break;
+            case 'b':
+                console.log('tar=>b');
+                break;
+            case 'c':
+                console.log('tar=>c');
+                break;
+            default:
+                break;
+        }
+    }
+    </script>
+</body>
+
+</html>

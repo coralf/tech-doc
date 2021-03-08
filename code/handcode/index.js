@@ -164,78 +164,41 @@
     }
 
 
-   /* const arr = [1, 2, 3, 4, [1, 2, [545, 53, [2]]],
-        [1],
-        [121, 21, [323, 121]]
-    ];
+    /* const arr = [1, 2, 3, 4, [1, 2, [545, 53, [2]]],
+         [1],
+         [121, 21, [323, 121]]
+     ];
 
-    const result = flat_v1(arr);
-    console.log(result, arr.flat(Infinity));*/
+     const result = flat_v1(arr);
+     console.log(result, arr.flat(Infinity));*/
 
 
 })();
 
 
+(() => {
+    //简单的发布订阅者模式
+    class Observer {
 
+        constructor() {
+            this.listeners = [];
+        }
 
+        on(listener) {
+            this.listeners.push(listener);
+        }
 
+        send(msg) {
+            this.listeners.forEach(listener => {
+                listener.call(null, msg);
+            });
+        }
+    }
 
+    const observer = new Observer();
+    observer.on((msg) => {
+        console.log('on=>', msg);
+    });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    observer.send(i++);
+})();

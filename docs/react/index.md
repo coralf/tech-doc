@@ -99,6 +99,10 @@ React完成一次渲染调用的方法栈。从render到appendChildToContainer�
 
 - appendChildToContainer()
 
+## React Fiber原理
+
+
+
 
 
 ## Component与PureComponent
@@ -115,23 +119,24 @@ component则会直接更新，或者自行实现shouldComponentUpdate来决定�
 
 ## 纯组件
 
-PureComponent用于class组件
+使用props与state的浅对比用于是否更新数据；
 
-React.memo()用于函数式组件，该函数只会检查props的变更来渲染
+PureComponent：用于class组件；
+
+React.memo：用于函数式组件
 
 
 
-## useMemo & useCallback
+## useMemo & useCallback & memo
 
-这两个函数作用几乎一致。
+React数据的更新会导致整个组件重新发生渲染，使用这三个API是为了优化性能避免组件、数据和声明的函数造成不必要的更新。
 
 只有第二个参数中的数组中的变量发生改变时才会回调更新。
 
 ```javascript
-
-useMemo(()=>fn,[a,b,c]);
-userCallback(fn,[a,b,c]);
-
+useMemo(()=>fn,[a,b,c]);用来缓存数据与React.memo()搭配使用
+React.memo();用来缓存组件
+userCallback(fn,[a,b,c]);用来缓存函数
 ```
 
 
@@ -162,8 +167,6 @@ const Context = React.createContext({});
 const value = React.useContext(Context);
 
 ```
-
-
 
 
 
