@@ -1,61 +1,66 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-	<title></title>
-
-	<style type="text/css">
-
-		*{margin:0; padding:0;}
-
-		/**圣杯布局**/
-
-		.gl-box{
-			padding:0 200px;
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+		html,
+		body {
+			margin: 0;
+			padding: 0;
 		}
 
-		.gl-box::after{
-			content:'';
-			display:block;
-			clear:both;
+		.container {
+			padding: 0 200px;
 		}
 
-		.gl-box > div{
-			height:500px;
-			float:left;
+		.container::after {
+			content: '';
+			clear: both;
+			display: block;
 		}
 
-		.gl-box > .left,.right{
-			position:relative;
-			width:200px;
+		.container>div {
+			float: left;
+			height: 400px;
 		}
 
-		.gl-box > .left{
-			background-color:red;
-			margin-left:-100%;
-			left:-200px;
-		}
-
-		.gl-box > .right{
-			background-color:blue;
-			left:200px;
-			margin-left:-200px;
-		}
-
-		.gl-box > .middle{
+		.center {
 			width: 100%;
-			background-color:green;
+			background-color: #f25f5c;
 		}
 
+		.left,
+		.right {
+			position: relative;
+			width: 200px;
+		}
+
+		.left {
+			margin-left: -100%;
+			left: -200px;
+			background-color: #70c1b3;
+		}
+
+		.right {
+			margin-left: -200px;
+			left: 200px;
+			background-color: #247ba0;
+		}
 	</style>
 </head>
 
-
 <body>
-	
-	<div class="gl-box">
-		<div class="middle">m</div>
-		<div class="left">L</div>
-		<div class="right">R</div>	
+
+	<div class="container">
+		<div class="center">中间</div>
+		<div class="left">左边</div>
+		<div class="right">右边</div>
 	</div>
+
 </body>
+
 </html>

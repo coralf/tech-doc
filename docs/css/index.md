@@ -280,9 +280,136 @@ width的设置限定了border+padding+content，如果padding和border的增加�
 
 # 动画
 
-> 
+## Animation
+
+**动画书写规则**
+
+`animation:动画名、持续时间、运动函数、延迟多久执行、动画执行多少次、动画方向、动画执行完成后如何应用CSS样式`
+
+> 时间是单位都是s或者ms
+
+**运动函数**
+
+```css
+animation-timing-function: ease、ease-in、ease-out、ease-in-out、linear、steps()、cubic-bezier(0.1, 0.7, 1.0, 0.1)
+```
+
+**动画执行多少次**
+
+```css
+animation-iteration-count: infinite、数字;
+```
+
+**动画方向**
+
+```css
+animation-direction: reverse;//从动画完结状态开始执行
+animation-direction: alternate;//交替执行
+animation-direction: alternate-reverse;//混用
+```
+
+**动画执行完成后如何应用CSS样式**
+
+```css
+animation-fill-mode: forwards;//完成后不会恢复原来状态
+animation-fill-mode: backwards;//恢复原来状态
+```
+
+**动画名**
+
+```css
+//方式1
+@keyframe 动画名{
+  from{
+    css样式
+  }
+  to{
+    css样式
+  }
+}
+
+//方式2
+@keyframe 动画名{
+  0%{
+    css样式
+  }
+  50%{
+    css样式
+  }
+  ...
+  100%{
+    css样式
+  }
+}
+```
+
+## 过渡（Transition）
+
+**书写规则**
+
+```css
+transition:css属性 、持续时间、运动函数、延迟多久执行。
+```
+
+> 1、可以配合hover伪类和js来使用
+>
+> 2、只要transition-property监听的值发生了变化，就会执行动画。
 
 
+
+## css动画实现抛物线运动轨迹
+
+css不管是通过animation还是transition都无法实现曲线运动。这里是曲线运动使用两个元素配合来完成抛物线。一个元素往X轴运动，另一个往Y轴运动，然后通过cubic-bezier这个函数使两个元素不同时间运动的快慢不一样。就形成了抛物线的运动轨迹。
+
+**css**
+
+```css
+ .container {
+   position: absolute;
+   left: 500px;
+   top: 500px;
+}
+
+.box {
+  width: 20px;
+  height: 20px;
+  /* background-color: coral; */
+  background-color: transparent;
+  border-radius: 50%;
+  animation: xAxis 2s infinite cubic-bezier(.6, .28, .68, .58);
+}
+
+.box::after {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 20px;
+  background-color: aquamarine;
+  /* background-color: transparent; */
+  border-radius: 50%;
+  animation: yAxis 2s infinite cubic-bezier(0, 1.48, .77, 1.74);
+}
+
+@keyframes xAxis {
+  100% {
+    transform: translateX(200px)
+  }
+}
+
+@keyframes yAxis {
+  100% {
+    transform: translateY(-200px);
+  }
+}
+```
+
+**html**
+
+```html
+<div class='container'>
+   <div class='box'></div>
+</div>
+```
 
 # 滤镜
 
