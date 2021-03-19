@@ -1,3 +1,5 @@
+# JavaScript
+
 # 数据类型
 
 ## 原始类型
@@ -7,7 +9,7 @@
 
 
 
-# var、let、const之间的区别
+# var、let、const
 
 `var`可重复定义、没有块级作用域。
 
@@ -289,32 +291,3 @@ Promise.then、MutationObserver、process.nextTick(Node.js)
 ## 异常处理
 
 try 或 catch 块无法阻止 finally 块执行，包括 return 语句。
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
