@@ -1,5 +1,6 @@
-# 
-# css html
+# js html css 手写题
+
+## html css相关
 
 1、两边固定、中间自适应布局（圣杯布局、双飞翼布局、flex布局）
 
@@ -16,11 +17,7 @@
 7、css画水波纹
 
 
-
-
-
-# JavaScript
-
+## javascript
 1、实现节流、防抖
 
 2、实现Promise
@@ -47,7 +44,9 @@
 
 13、实现Object.create()
 
-# 算法
+
+
+## 算法
 
 1、数据去重
 

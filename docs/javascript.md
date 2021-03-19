@@ -19,35 +19,13 @@
 
 # 函数
 
-## 1、普通函数
+## 三种声明函数的方式
 
-变量提升时函数优先
+1、普通函数`function test(){}`
 
-```javascript
-function test(){
-  //
-}
-```
+2、箭头函数`const test = ()=> {}`
 
-## 2、箭头函数
-
-this指向与外层的非箭头函数保持一致。
-
-```javascript
-const test = ()=> {
-  //
-}
-```
-
-## 3、变量声明
-
-```javascript
-const test = function(){
-//
-}
-```
-
-
+3、变量声明`const test = function(){}`
 
 # 闭包
 
@@ -55,7 +33,9 @@ const test = function(){
 
 闭包是用来保存哪些本该被回收的变量，也可以说闭包会延长变量的使用周期。
 
-## 节流
+## 闭包的应用
+
+#### 节流
 
 ```javascript
 const throttle = (function () {
@@ -74,7 +54,7 @@ const throttle = (function () {
 
 
 
-## 防抖
+#### 防抖
 
 ```javascript
 const antShaking = (function () {
@@ -96,7 +76,7 @@ const antShaking = (function () {
 
 
 
-## bind
+#### bind
 
 ```javascript
 Function.prototype.bind = function (...args) {
@@ -125,7 +105,7 @@ Function.prototype.mybind1 = function (...args) {
 
 
 
-## apply
+#### apply
 
 ```javascript
 Function.prototype.myapply = function (ctx, ...param) {
@@ -137,7 +117,7 @@ Function.prototype.myapply = function (ctx, ...param) {
 }
 ```
 
-## call
+#### call
 
 ```javascript
 Function.prototype.mycall = function (...args) {
@@ -154,7 +134,7 @@ Function.prototype.mycall = function (...args) {
 
 
 
-# this指向
+# this
 
 *按照下面1-4顺序判断。*
 
@@ -168,7 +148,7 @@ Function.prototype.mycall = function (...args) {
 
 > 箭头函数的this指向与它的外层函数保持一致
 
-# 对象继承
+# 继承
 
 ## 组合继承
 
@@ -270,8 +250,6 @@ const pObj = new Proxy(target,handler);
 
 # 异步
 
-
-
 ## JS中的异步
 
 由于js的执行是单线程。在js中有两个队列来执行异步任务，一个是执行微任务的队列，一个是执行宏任务的队列。微任务执行的优先级高于宏任务。
@@ -286,8 +264,6 @@ setTimeout、setInterval、I/O、事件、postMessage、setImmediate（Node.js�
 
 Promise.then、MutationObserver、process.nextTick(Node.js)
 
-
-
-## 异常处理
+# 异常处理
 
 try 或 catch 块无法阻止 finally 块执行，包括 return 语句。
