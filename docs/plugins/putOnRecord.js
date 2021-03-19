@@ -10,6 +10,7 @@ var defaultOptions = {
 // Docsify plugin functions
 function plugin(hook, vm) {
   hook.afterEach(function (html, next) {
+
     //add html string
     next(
       html +

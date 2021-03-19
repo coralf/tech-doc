@@ -28,7 +28,7 @@ props改变、state改变、调用foreUpdate方法这三种情况组件会发生
 
 - componentWillUnmount()
 
-![image-20210221135604894](/Users/mac/projects/tech-doc/docs/assets/image-20210221135604894.png)
+![image-20210221135604894](./assets/image-20210221135604894.png)
 
 > https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
 
