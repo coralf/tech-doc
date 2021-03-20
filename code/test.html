@@ -13,17 +13,47 @@
             padding: 0;
         }
 
-
-  
-
-
+        #box {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: skyblue;
+        }
     </style>
-
 </head>
 
 <body>
-    <div class="container">
-    </div>
+
+
+
+    <script>
+
+
+        function objectCreate(prototype, properties) {
+            if (typeof prototype !== 'object') {
+                throw new TypeError();
+            }
+            function F() { }
+            F.prototype = prototype;
+            const obj = new F();
+            if (properties) {
+                if (properties !== Object(properties)) {
+                    throw new TypeError();
+                }
+                Object.defineProperties(obj, properties);
+            }
+            return obj;
+        }
+
+        console.log(objectCreate({ name: '1' }));
+
+
+
+
+    </script>
+
+
+
 </body>
 
 </html>
