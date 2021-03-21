@@ -2,12 +2,12 @@
 
 # 数据类型
 
+javascript中目前一共有8中数据类型，其中原始（基本）类型有7种、剩下1种为引用类型。
+
 ## 原始类型
 `string` `number` `boolean` `null` `undefined` `symbol` `bigInt`
 ## 对象类型
 `Date` `RegExp` `Global` `Math` `Map` `Set` `Object` `Array` `Boolean` `Number` `String` ...
-
-
 
 # var、let、const
 
@@ -26,6 +26,8 @@
 2、箭头函数`const test = ()=> {}`
 
 3、变量声明`const test = function(){}`
+
+> JavaScript中都是以变量来存储函数的，无法声明两个相同变量名，因此没有重载。
 
 # 闭包
 
@@ -74,69 +76,14 @@ const antShaking = (function () {
 
 
 
-
-
-#### bind
-
-```javascript
-Function.prototype.bind = function (...args) {
-  const [target, ...rest] = args;
-  const fNOP = function () { };
-  const excuteFun = this;
-  const fbound = function (...restParam) {
-    const composeArgs = [].concat(rest).concat(restParam);
-    return excuteFun.apply(fNOP.prototype.isPrototypeOf(this) ? this : target, composeArgs)
-  }
-  if (this.prototype) {
-    fNOP.prototype = this.prototype;
-  }
-  fbound.prototype = new fNOP();
-  return fbound;
-}
-
-//极度精简版
-Function.prototype.mybind1 = function (...args) {
-  const [target, ...rest] = args;
-  return (...param) => {
-    this.apply(target, [...(rest || []), ...param]);
-  };
-}
-```
-
-
-
-#### apply
-
-```javascript
-Function.prototype.myapply = function (ctx, ...param) {
-  const Fun = function () { };
-  Fun.prototype = ctx;
-  Fun.prototype.excuteFun = this;
-  const obj = new Fun();
-  obj.excuteFun(...param);
-}
-```
-
-#### call
-
-```javascript
-Function.prototype.mycall = function (...args) {
-  const [ctx, ...rest] = args;
-  const Fun = function () { };
-  Fun.prototype = ctx;
-  Fun.prototype.excuteFun = this;
-  const obj = new Fun();
-  obj.excuteFun(...rest);
-}
-```
-
-
-
-
-
 # this
 
-*按照下面1-4顺序判断。*
+## this的绑定
+
+* 当一个函数被调用时有一个活动记录（执行上下文），这个活动记录包含了函数执行的相关信息，this只是这个活动记录中的一个属性。
+* this的指向取决于函数在哪里被调用。
+
+*按照下面顺序判断。*
 
 1、是否是new 创建的；
 
@@ -146,7 +93,21 @@ Function.prototype.mycall = function (...args) {
 
 4、是否默认绑定到了全局对象。非严格模式var 声明的默认会绑定到全局对象上面。
 
-> 箭头函数的this指向与它的外层函数保持一致
+5、箭头函数的this指向与它的外层函数保持一致
+
+## this的优先级
+
+> new > call 、apply 、bind > 隐式绑定 > 默认绑定
+
+# 原型链
+
+声明一个类（函数）会有一个`prototype`的属性，该属性默认指向`Object`。当实例化一个类后会自带一个`__proto__`的属性。这个属性是隐式的。
+
+> 这两个属性的关系：`__proto__===prototype`
+
+如果我们使用将一个类的`prototype`绑定一个对象的实例，这样就可以实现继承。这样就形成了原型链。
+
+> Person === Person.prototype.constructor
 
 # 继承
 
@@ -264,6 +225,6 @@ setTimeout、setInterval、I/O、事件、postMessage、setImmediate（Node.js�
 
 Promise.then、MutationObserver、process.nextTick(Node.js)
 
-# 异常处理
+# 其他
 
-try 或 catch 块无法阻止 finally 块执行，包括 return 语句。
+1、try 或 catch 块无法阻止 finally 块执行，包括 return 语句。

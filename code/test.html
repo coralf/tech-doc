@@ -29,24 +29,16 @@
     <script>
 
 
-        function objectCreate(prototype, properties) {
-            if (typeof prototype !== 'object') {
-                throw new TypeError();
-            }
-            function F() { }
-            F.prototype = prototype;
-            const obj = new F();
-            if (properties) {
-                if (properties !== Object(properties)) {
-                    throw new TypeError();
-                }
-                Object.defineProperties(obj, properties);
-            }
-            return obj;
+
+
+        function Person() {
+
         }
 
-        console.log(objectCreate({ name: '1' }));
+        const p = new Person();
 
+
+        console.log(Person === Person.prototype.constructor);
 
 
 

@@ -1,10 +1,8 @@
 
 
-
+# React技术栈
 
 # React
-
-
 
 ## React生命周期
 
@@ -174,7 +172,7 @@ const value = React.useContext(Context);
 
 
 
-## Questions
+## 其他
 
 ### 1、React 17中为什么要把事件的绑定从document到root元素？
 
@@ -221,6 +219,24 @@ class App extends React.Component {
 `handling event on document`
 
 
+
+
+
+
+
+# redux
+
+
+
+
+
+# mobx
+
+
+
+
+
+# react-router
 
 
 

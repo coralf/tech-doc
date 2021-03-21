@@ -742,6 +742,127 @@ function objectCreate(prototype, properties) {
 
 ## 算法
 
-1、数据去重
+### 1、数据去重
 
-2、扁平化数组
+#### ES6 Set实现
+
+```javascript
+const arr = [1, 2, 1, 2, 23, 4, 55, 5, 5, 5, 5];
+const duplicatedArr = Array.from(new Set(arr));
+```
+
+#### reduce去重
+
+```javascript
+const arr = [1, 2, 1, 2, 23, 4, 55, 5, 5, 5, 5];
+const duplicatedArr = arr.reduce((acc, curr, idx) => {
+  return acc.includes(curr) ? acc : [...acc, curr];
+}, []);
+```
+
+#### for + indexOf去重
+
+```javascript
+const arr = [1, 2, 1, 2, 23, 4, 55, 5, 5, 5, 5];
+const len = arr.length;
+const dupArr = [];
+for (let i = 0; i < len; i++) {
+  const item = arr[i];
+  if (dupArr.indexOf(item) == -1) {
+    dupArr.push(item);
+  }
+}
+```
+
+#### for of + includes去重
+
+```javascript
+const arr = [1, 2, 1, 2, 23, 4, 55, 5, 5, 5, 5];
+const dupArr = [];
+for (const item of arr) {
+  if (!dupArr.includes(item)) {
+    dupArr.push(item);
+  }
+}
+```
+
+#### for in + includes去重
+
+```javascript
+const arr = [1, 2, 1, 2, 23, 4, 55, 5, 5, 5, 5];
+const result = [];
+for (let idx in arr) {
+  const item = arr[idx];
+  if (result.includes(item)) continue;
+  result.push(item);
+}
+```
+
+
+
+### 2、扁平化数组
+
+#### ES6 flat
+
+```javascript
+const arr = [1, 2, 1, 2, 23, 4, [1, 2, [33244, 54], [545]], [5454, 232, 2, [413, [43], [2]]], 55, 5, 5, 5, 5];
+function flat(arr) {
+  return arr.flat(Infinity);
+}
+```
+
+#### reduce实现
+
+```javascript
+const arr = [1, 2, 1, 2, 23, 4, [1, 2, [33244, 54], [545]], [5454, 232, 2, [413, [43], [2]]], 55, 5, 5, 5, 5];
+function flat(arr) {
+  return arr.reduce((acc, curr) => Array.isArray(curr) ? [...acc, ...flat(curr)] : [...acc, curr], []);
+}
+```
+
+#### for 实现
+
+```javascript
+const arr = [1, 2, 1, 2, 23, 4, [1, 2, [33244, 54], [545]], [5454, 232, 2, [413, [43], [2]]], 55, 5, 5, 5, 5];
+function flat(arr) {
+  const result = [];
+  const len = arr.length;
+  for (let i = 0; i < len; i++) {
+    const item = arr[i];
+    if (Array.isArray(item)) {
+      const children = flat(item);
+      result.concat(children);
+    } else {
+      result.push(item);
+    }
+  }
+  return result;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
