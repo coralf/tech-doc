@@ -840,23 +840,94 @@ function flat(arr) {
 }
 ```
 
+### 3、合并两个有序数组
+
+**思路（原地算法）**
+
+从两个数组的后面开始比较， 把数组中元素大的依次放在`nums1`的后面。如果两个数组有其中一个遍历完成了循环结束。
+
+这样`nums2`剩下的元素一定比`nums1`中的所有元素小，只需要将`nums2`中剩下的放在`nums1`的前面就行了。
+
+```javascript
+const merge = function (nums1, m, nums2, n) {
+  let len1 = m - 1;
+  let len2 = n - 1;
+  let len = m + n - 1;
+  while (len1 >= 0 && len2 >= 0) {
+    //对比两个数组最后面的数，谁大谁放后面；
+    nums1[len--] = nums1[len1] > nums2[len2] ? nums1[len1--] : nums2[len2--];
+  }
+  nums1.splice(0, len2 + 1, ...nums2.slice(0, len2 + 1));
+};
+```
 
 
 
+### 4、两数之和
+
+**思路**
+
+使用map将数组中元素与对应下标存储起来，每遍历一个元素看一下map是否存在对应的下标。如果存在就直接返回下标。
+
+使用一个循环就能完成操作。如果数组中必然存在这样两个数。这样不管当前遍历到的元素是a,b那个数。那么一定会出现在map中。
+
+```javascript
+const twoSum = function (nums, target) {
+  const map = new Map();
+  const len = nums.length;
+  for (let i = 0; i < len; i++) {
+    const differ = target - nums[i];
+    if (map.has(differ)) {
+      return [map.get(differ), i];
+    }
+    map.set(nums[i], i);
+  }
+};
+```
 
 
 
+### 5、三数之和
 
+**思路**
 
+考虑将元素排好序，从第一个元素开始遍历，如果a+b+c=0的话那么b，c一定出现当前元素的右边了；
 
+使用双指分别指向右边的头尾开始枚举，将复合条件的三个元素放入数组中。然后再继续剩下的b，c。
 
+**考虑去重**
 
+如果元素有重复的那么这两个元素一定相邻，这时需要移动指针来跳过a,b,c的重复元素。
 
-
-
-
-
-
+```javascript
+const threeSum = function (nums) {
+  if (!nums || nums.length < 3) return [];
+  const result = [];
+  nums.sort((a, b) => a - b);
+  const len = nums.length;
+  for (let i = 0; i < len; i++) {//遍历排序后的数组
+    if (nums[i] > 0) break;//如果当前元素>0肯定不符合
+    if (i > 0 && nums[i] === nums[i - 1]) continue;//去重
+    let left = i + 1;
+    let right = len - 1;
+    while (left < right) {
+      const sum = nums[i] + nums[left] + nums[right];
+      if (sum > 0) {//大了，往左走选小的
+        right--;
+      } else if (sum < 0) {//小了，往右走选大的
+        left++;
+      } else {//三数之和=0，继续找下一个三数之和
+        result.push([nums[i], nums[left], nums[right]]);
+        while (left < right && nums[left] === nums[left + 1]) left++;//左边去重
+        while (left < right && nums[right] === nums[right - 1]) right--;//右边去重
+        right--;
+        left++;
+      }
+    }
+  }
+  return result;
+};
+```
 
 
 
