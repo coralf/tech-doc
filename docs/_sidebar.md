@@ -9,6 +9,7 @@
 - [前端工程化](engineering)
 - [V8原理](v8)
 - [浏览器原理](browserPrinciple)
+- [性能优化](performance)
 <!-- - **前端图形学**
   - [计算机图形学基础](csFundamentals)
   - [webGL](webgl)
