@@ -49,7 +49,7 @@ Total Blocking Time : 从FCP到TTI总的阻塞时间。
 
 **Lighthouse 生成指标测试报告**
 
-**Performance API 性能指标监控**
+**PerformanceObsever API 性能指标监控**
 
 
 

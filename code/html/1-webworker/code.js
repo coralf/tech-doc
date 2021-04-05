@@ -1,7 +1,0 @@
-
-
-setInterval(()=>{
-  console.log();
-  postMessage()
-});
-

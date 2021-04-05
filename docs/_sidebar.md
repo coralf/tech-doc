@@ -20,7 +20,7 @@
 - [操作系统](operatingSystem)
 - [计算机网络](networkProtocol)
 - [计算机组成原理](composePrinciple)
-- **Coding**
-- [刷题](handcode)
+<!-- - **Coding** -->
+<!-- - [刷题](handcode) -->
 - **Links**
-<!-- - [个人简历](resume) -->
+- [个人简历](resume)
