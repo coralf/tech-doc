@@ -10,9 +10,36 @@
 
 <body>
 
-
-
     <script>
+
+        class LRUCatch {
+
+            constructor(capacity) {
+                this.capacity = capacity;
+                this.catch = new Map();
+            }
+
+            get(key) {
+                if (!this.catch.has(key)) return -1;
+                const value = this.catch.get(key);
+                this.catch.delete(key);
+                this.catch.set(key, value);
+                return value;
+            }
+
+            put(key, value) {
+                if (this.catch.has(key)) {
+                    this.catch.delete(key);
+                }
+                this.catch.set(key, value);
+                if (this.catch.size > this.capacity) {
+                    this.catch.delete(this.catch.keys().next().value);
+                } 
+            }
+            
+        }
+
+
 
 
     </script>

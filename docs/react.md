@@ -6,6 +6,12 @@
 
 ## React生命周期
 
+### React 16之前的生命周期
+
+![5287253-315eac1c26082f08](assets/5287253-315eac1c26082f08.png)
+
+### React 16+的生命周期
+
 **1、挂载阶段**
 
 - constructor()
@@ -32,9 +38,40 @@ props改变、state改变、调用foreUpdate方法这三种情况组件会发生
 
 > https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
 
+### React16+ 后移出的生命周期
+
+由于fiber架构更新组件的任务是可以被中断的，这样就会导致生命周期方法被多次调用执行，React 16 + 移出了`componentWillMount`、`componentWillReceiveProps`、`componentWillUpdate`,并使用静态方法
+
+`static getDerivedStateFromProps(props, state)`替代。
+
+
+
+## React Fiber原理
+
+### **React Fiber架构分为3层**
+
+* 虚拟dom：描述页面
+* Reconciler：调用生命周期，进行diff计算
+* Renderer：根据不同的平台渲染出响应的页面
+
+### Fiber特性
+
+* Fiber更新是可中断的
+* 优先级
+
+### 优先级的任务调度
+
+* synchronous：同步执行（首屏、首次渲染）
+* task : 由浏览器空闲时间调度（requestIdleCallBack）
+* animation : 下一帧之前执行
+* hight : 不久的将来执行
+* low : 表示优先级低，延迟执行
+* offscreen : 下一次render，或者scroll (滚动) 的时候执行
+
 
 
 ## React 源码分析
+
 React完成一次渲染调用的方法栈。从render到appendChildToContainer方法React完成首次渲染。
 
 ### 渲染主流程方法分析
@@ -98,12 +135,6 @@ React完成一次渲染调用的方法栈。从render到appendChildToContainer�
 - insertOrAppendPlacementNodeIntoContainer()
 
 - appendChildToContainer()
-
-## React Fiber原理
-
-
-
-
 
 ## Component与PureComponent
 

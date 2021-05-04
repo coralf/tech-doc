@@ -341,6 +341,64 @@
 
 
 
+### 8、垂直水平居中，div高度始终是宽度的一半
+
+*%单位以父元素大小作为参考*
+
+```html
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .layout {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height:100vh;
+        }
+        .box {
+            width: 200px;
+        }
+        .main {
+            position: relative;
+            padding-bottom: 50%;
+            background-color: red;
+            height: 0;
+        }
+        .content {
+            position: absolute;
+            background-color: green;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <div class="box">
+            <div class="main">
+                <div class="content">
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+```
+
+
+
+
+
+
+
 
 
 
@@ -742,7 +800,7 @@ function objectCreate(prototype, properties) {
 
 ## 算法
 
-### 1、数据去重
+### 数组去重
 
 #### ES6 Set实现
 
@@ -798,9 +856,7 @@ for (let idx in arr) {
 }
 ```
 
-
-
-### 2、扁平化数组
+### 扁平化数组
 
 #### ES6 flat
 
@@ -840,7 +896,9 @@ function flat(arr) {
 }
 ```
 
-### 3、合并两个有序数组
+
+
+### 合并两个有序数组
 
 **思路（原地算法）**
 
@@ -857,13 +915,14 @@ const merge = function (nums1, m, nums2, n) {
     //对比两个数组最后面的数，谁大谁放后面；
     nums1[len--] = nums1[len1] > nums2[len2] ? nums1[len1--] : nums2[len2--];
   }
+  //此时num2数组中可能还剩下元素没被遍历完成（没被遍历完的都是比num1中元素小的），直接放到前面
   nums1.splice(0, len2 + 1, ...nums2.slice(0, len2 + 1));
 };
 ```
 
+> https://leetcode-cn.com/problems/merge-sorted-array/
 
-
-### 4、两数之和
+### 两数之和
 
 **思路**
 
@@ -885,9 +944,9 @@ const twoSum = function (nums, target) {
 };
 ```
 
+> https://leetcode-cn.com/problems/two-sum/
 
-
-### 5、三数之和
+### 三数之和
 
 **思路**
 
@@ -928,6 +987,915 @@ const threeSum = function (nums) {
   return result;
 };
 ```
+
+> https://leetcode-cn.com/problems/3sum/
+
+### 四数之和N数之和
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[][]}
+ */
+const nSumTarget = (nums, n, start, target) => {
+    const result = [];
+    const len = nums.length;
+    if(n < 2 || len < n) return result;
+    if (n === 2) {
+        let left = start;
+        let right = len - 1;
+        while (left < right) {
+            const leftVal = nums[left];
+            const rightVal = nums[right];
+            const sum = rightVal + leftVal;
+            if (sum < target) {
+                while (left < len && nums[left] === leftVal) left++;
+            } else if (sum > target) {
+                while (right > 0 && nums[right] === rightVal) right--;
+            } else {
+                result.push([leftVal, rightVal]);
+                while (left < len && nums[left] === leftVal) left++;
+                while (right > 0 && nums[right] === rightVal) right--;
+            }
+        }
+    } else {
+        for (let i = start; i < len; i++) {
+            const a = nums[i];
+            const tuples = nSumTarget(nums, n - 1, i + 1, target - a);
+            for (const tuple of tuples) {
+                tuple.push(a);
+                result.push(tuple);
+            }
+            while (i < len && nums[i] === nums[i + 1]) i++;
+        }
+    }
+    return result;
+}
+
+const fourSum = function (nums, target) {
+    nums.sort((a, b) => a - b);
+    return nSumTarget(nums, 4, 0, target);
+};
+```
+
+> https://leetcode-cn.com/problems/4sum/
+
+
+
+### LRU（最近最少使用）缓存
+
+```javascript
+class LRUCatch {
+  constructor(capacity) {
+    this.capacity = capacity;
+    this.catch = new Map();
+  }
+
+  get(key) {
+    if (!this.catch.has(key)) return -1;
+    const value = this.catch.get(key);
+    this.catch.delete(key);
+    this.catch.set(key, value);
+    return value;
+  }
+
+  put(key, value) {
+    if (this.catch.has(key)) {
+      this.catch.delete(key);
+    }
+    this.catch.set(key, value);
+    if (this.catch.size > this.capacity) {
+      this.catch.delete(this.catch.keys().next().value);
+    } 
+  }
+}
+```
+
+
+
+
+
+## 链表
+
+### 回文链表
+
+```javascript
+const isPalindrome = function (head) {
+    let left = head;
+    const isCir = (right) => {
+        if (right === null) {
+            return true;
+        }
+        let res = isCir(right.next);
+        res = res && left.val === right.val;
+        left = left.next;
+        return res;
+    }
+    return isCir(head);
+};
+```
+
+> https://leetcode-cn.com/problems/palindrome-linked-list/
+
+### 反转链表
+
+```javascript
+const reverseList = function (head) {
+    if (!head) return null;
+    let reversed = new ListNode(head.val);
+    let headTemp = head.next;
+    while (headTemp) {
+        let newNode = new ListNode(headTemp.val);
+        newNode.next = reversed;
+        reversed = newNode;
+        headTemp = headTemp.next;
+    }
+    return reversed;
+};
+```
+
+递归翻转
+
+```javascript
+const reverseList = function (head) {
+    if (!head) return head;
+    if (!head.next) return head;
+    const last = reverseList(head.next);
+    head.next.next = head;
+    head.next = null;
+    return last;
+};
+```
+
+> https://leetcode-cn.com/problems/fan-zhuan-lian-biao-lcof/
+
+### 合并两个有序链表
+
+```javascript
+/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */
+/**
+ * @param {ListNode} l1
+ * @param {ListNode} l2
+ * @return {ListNode}
+ */
+const mergeTwoLists = function (l1, l2) {
+    if (!l1 || !l2) return l1 || l2;
+    const head = new ListNode(0);
+    let tail = head;
+    let at = l1;
+    let bt = l2;
+    while (at && bt) {
+        if (at.val < bt.val) {
+            tail.next = at;
+            at = at.next;
+        } else {
+            tail.next = bt;
+            bt = bt.next;
+        }
+        tail = tail.next;
+    }
+    tail.next = at || bt;
+    return head.next;
+};
+```
+
+> https://leetcode-cn.com/problems/merge-two-sorted-lists/
+
+
+
+### 合并K个升序链表
+
+归并思想
+
+```javascript
+const mergeKLists = function (lists) {
+    return merge(lists, 0, lists.length - 1);
+};
+const merge = (lists, left, right) => {
+    if (left > right) {
+        return null;
+    }
+
+    if (left === right) {
+        return lists[left];
+    }
+
+    const mid = (left + right) >> 1;//避免出现小数，提高运算效率
+    return mergeTwoList(merge(lists, left, mid), merge(lists, mid + 1, right));
+}
+const mergeTwoList = (a, b) => {
+    if (!a || !b) return a || b;
+    const head = new ListNode(0);
+    let tail = head;
+    let at = a;
+    let bt = b;
+    while (at && bt) {
+        if (at.val < bt.val) {//小的放前面
+            tail.next = at;
+            at = at.next;
+        } else {
+            tail.next = bt;
+            bt = bt.next;
+        }
+        tail = tail.next;
+    }
+    tail.next = at || bt;//有可能没被遍历完
+    return head.next;
+}
+```
+
+> https://leetcode-cn.com/problems/merge-k-sorted-lists/
+
+### 环形链表
+
+快慢指针，快指针两步两步地走，慢指针一步一步地走，只要链表有环，就一定会走到一起。
+
+```javascript
+const hasCycle = function (head) {
+    let faster = head;
+    let slower = head;
+    while(faster){
+        if(!faster.next) break;
+        slower = slower.next;
+        faster = faster.next.next;
+        if(slower===faster) return true;
+    }
+    return false;
+};
+```
+
+> https://leetcode-cn.com/problems/linked-list-cycle/
+
+### 相交链表
+
+双指针
+
+* pA到达末尾，则从headB开始
+* pB到达末尾，则从headA开始
+* 如果两个链表长度不一致，且有相同的节点这样最终会找起始节点。
+
+```javascript
+var getIntersectionNode = function (headA, headB) {
+    let pA = headA;
+    let pB = headB;
+    while (pA !== pB) {
+        pA = pA ? pA.next : headB;
+        pB = pB ? pB.next : headA;
+    }
+    return pA;
+};
+```
+
+> https://leetcode-cn.com/problems/intersection-of-two-linked-lists/
+
+## 字符串
+
+### 最长回文子串
+
+中心两边扩散思想
+
+```javascript
+const longestPalindrome = (s) => {
+    let longest = '';
+    let len = s.length;
+    const getLongStr = (s, left, right) => {
+        while (left >= 0 && right < s.length && s[left] === s[right]) {
+            left--;
+            right++;
+        }
+        return s.substring(left + 1, right);
+    }
+    for (let i = 0; i < len; i++) {
+        const s1 = getLongStr(s, i, i);//从自身开始算起
+        const s2 = getLongStr(s, i, i + 1);
+        const max = Math.max(s1.length, s2.length);
+        if (max > longest.length) {
+            if (s1.length > s2.length) {
+                longest = s1;
+            } else {
+                longest = s2;
+            }
+        }
+    }
+    return longest;
+}
+```
+
+> https://leetcode-cn.com/problems/longest-palindromic-substring/
+
+### 最长公共前缀
+
+归并思想
+
+```javascript
+/**
+ * @param {string[]} strs
+ * @return {string}
+ */
+const longestCommonPrefix = function (strs) {
+
+    const getPrefix = (left, right) => {
+        const minLen = Math.min(left.length, right.length);
+        let idx = 0;
+        while (idx < minLen && left[idx] === right[idx]) {
+            idx++;
+        }
+        return left.slice(0, idx);
+    }
+
+    const getLongestCommPrefix = (strs, left, right) => {
+        if (left > right) return null;
+        if (left === right) return strs[left];
+        const mid = left + ((right - left) >> 1);
+        return getPrefix(getLongestCommPrefix(strs, left, mid), getLongestCommPrefix(strs, mid + 1, right));
+    }
+
+    if (!strs || strs.length === 0) return '';
+    return getLongestCommPrefix(strs, 0, strs.length - 1);
+};
+```
+
+> https://leetcode-cn.com/problems/longest-common-prefix/
+
+
+
+**解法二**
+
+```javascript
+const longestCommonPrefix = function (strs) {
+    if (!strs || strs.length === 0) return '';
+    let result = strs[0];
+    let len = strs.length;
+    for (let i = 1; i < len; i++) {
+        const s = strs[i];
+        let j = 0;
+        for (; j < s.length; j++) {
+            if (result[j] !== s[j]) {
+                break;
+            }
+        }
+        result = result.slice(0, j);
+    }
+    return result;
+};
+```
+
+
+
+
+
+
+
+### 无重复字符的最长子串
+
+```javascript
+/**
+ * @param {string} s
+ * @return {number}
+ */
+const lengthOfLongestSubstring = function (s) {
+    if (!s || s.length === 0) return 0;
+    const len = s.length;
+    let ans = "";
+    let maxLen = 0;
+    let idx = 0;
+    while (idx < len) {
+        const rs = s[idx];
+        const findIdx = ans.indexOf(rs);
+        if (findIdx === -1) {
+            ans += rs;
+            idx++;
+        } else {
+            ans = ans.slice(findIdx + 1, idx);
+        }
+        maxLen = Math.max(ans.length, maxLen);
+    }
+    return maxLen
+};
+```
+
+> https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/
+
+## 数组
+
+### 二分查找
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number}
+ */
+const search = (nums, val) => {
+    let left = 0;
+    let right = nums.length - 1;
+    while (left <= right) {
+        const mid = left + ((right - left) >> 1);
+        const n = nums[mid];
+        if (n < val) {
+            left = mid + 1;
+        } else if (n > val) {
+            right = mid - 1;
+        } else {
+            return mid;
+        }
+    }
+    return -1;
+}
+```
+
+> https://leetcode-cn.com/problems/binary-search/submissions/
+
+### 最长连续递增序列
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+const findLengthOfLCIS = function (nums) {
+    if (!nums || nums.length === 0) return 0;
+    let maxSubSeq = 1;
+    let result = maxSubSeq;
+    const len = nums.length;
+    for (let i = 1; i < len; i++) {
+        if (nums[i] > nums[i - 1]) {
+            maxSubSeq++;
+        } else {
+            maxSubSeq = 1;
+        }
+        result = Math.max(maxSubSeq, result);
+    }
+    return result;
+};
+```
+
+> https://leetcode-cn.com/problems/longest-continuous-increasing-subsequence/
+
+### 最长连续序列
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number}
+ */
+const longestConsecutive = function (nums) {
+    if (!nums || nums.length === 0) return 0;
+    const dupNums = [...new Set(nums)];
+    dupNums.sort((a, b) => a - b);
+    let maxSubSeq = 1;
+    let result = maxSubSeq;
+    let left = 0;
+    let right = 1;
+    let len = dupNums.length;
+    while (right < len) {
+        if ((dupNums[left] + 1) === dupNums[right]) {
+            maxSubSeq++;
+        } else {
+            maxSubSeq = 1;
+        }
+        left++;
+        right++;
+        result = Math.max(maxSubSeq, result);
+    }
+    return result;
+};
+```
+
+> https://leetcode-cn.com/problems/longest-consecutive-sequence/
+
+### 盛水最多的容器
+
+* 既然是盛水最快，容器肯定是高度最高，宽度最宽
+
+```javascript
+const maxArea = function (height) {
+    let left = 0;
+    let right = height.length - 1;
+    let maxCapacity = 0;
+    while (left < right) {
+        const leftHeight = height[left];
+        const rightHeight = height[right];
+        const currCapacity = Math.min(leftHeight, rightHeight) * (right - left);
+        if (currCapacity > maxCapacity) {//计算出当前容量与上一次容量做对比，如果当前容量 > 上一次的容量,则当前容量作为最大容量
+            maxCapacity = currCapacity;
+        } else {//否则缩小范围看看，有没有更高侧面
+            if (leftHeight < rightHeight) {//高度小的一侧，优先缩小。
+                left++;
+            } else {
+                right--;
+            }
+        }
+    }
+    return maxCapacity;
+};
+```
+
+> https://leetcode-cn.com/problems/container-with-most-water/
+
+### 删除有序数组中的重复项
+
+* 快慢指针思想
+
+```javascript
+const removeDuplicates = function (nums) {
+    const len = nums.length;
+    let left = 0;
+    let right = 1;
+    while (right < len) {
+        if (nums[left] !== nums[right]) {
+            nums[++left] = nums[right];
+        }
+        right++;
+    }
+    return left + 1;
+};
+```
+
+> https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/
+
+### 和为K的子数组个数
+
+* pre[i] = nums[0]+...+nums[i] ; `pre`表示前缀和
+* pre[i] = k + pre[i-1];
+* pre[i] - k = pre[i-1];
+
+```javascript
+/** 
+ * @param {number[]} nums
+ * @param {number} k
+ * @return {number}
+ */
+const subarraySum = function (nums, k) {
+    if (!nums || nums.length === 0) return 0;
+    let count = 0;
+    let len = nums.length;
+    const map = new Map();
+    map.set(0, 1);
+    let pre = 0;
+    for (let i = 0; i < len; i++) {
+        const n = nums[i];
+        pre += n;
+        if (map.has(pre - k)) {
+            count += map.get(pre - k);
+        }
+        if (map.has(pre)) {
+            map.set(pre, map.get(pre) + 1);
+        } else {
+            map.set(pre, 1);
+        }
+    }
+    return count;
+};
+```
+
+> https://leetcode-cn.com/problems/subarray-sum-equals-k/
+
+### 跳跃游戏
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {boolean}
+ */
+const canJump = function (nums) {
+    const len = nums.length;
+    let faster = 0;
+    for (let i = 0; i < len; i++) {
+        if (i > faster) {
+            return false;
+        }
+        faster = Math.max(faster, i + nums[i]);
+    }
+    return true;
+};
+```
+
+> https://leetcode-cn.com/problems/jump-game/
+
+## 二叉树
+
+
+
+### 二叉树的最近公共节点
+
+```javascript
+const lowestCommonAncestor = function (root, p, q) {
+
+    let ans = null;
+    const dfs = (node, p, q) => {
+        if (!node) return null;
+        if (node === p || node === q) {//表示在树中找到了p或者q相等的节点
+            return root;
+        }
+        const left = dfs(node.left, p, q);
+        const right = dfs(node.right, p, q);
+        if (left !== null && right !== null) {//表示树中存在p,q，表示找到了返回父节点。
+            return root;
+        } else if (left !== null) {//可能父节点是自身
+            return left
+        } else if (right !== null) {//可能父节点是自身
+            return right;
+        }
+        return null;
+    }
+    return dfs(root, p, q);
+};
+```
+
+> https://leetcode-cn.com/problems/lowest-common-ancestor-of-a-binary-tree/
+
+### 二叉树搜索
+
+* 当前节点比`val`大，去左边找
+* 当前节点比`val`小，去右边找
+* 最后返回匹配到的树及其子节点
+
+```javascript
+const searchBST = function (root, val) {
+    const dfs = (node) => {
+        if (!node) return null;
+        return node.val > val ? dfs(node.left) : node.val < val ? dfs(node.right) : node;
+    }
+    return dfs(root);
+};
+```
+
+> https://leetcode-cn.com/problems/search-in-a-binary-search-tree/
+
+### 二叉树的最小深度
+
+深度优先（DFS）
+
+```javascript
+const minDepth = function (root) {
+    if (!root) return 0;
+    const dfs = (node) => {
+        if (!node) return 0;
+        if (!node.left && !node.right) return 1;
+        let ans = Number.MAX_SAFE_INTEGER;
+        if (node.left) {
+            ans = Math.min(dfs(node.left), ans);
+        }
+        if (node.right) {
+            ans = Math.min(dfs(node.right), ans);
+        }
+        return ans + 1;
+    }
+    return dfs(root);
+};
+```
+
+广度优先（BFS）
+
+```javascript
+const minDepth = function (root) {
+    if (root === null) return 0;
+    let minHeight = 1;
+    let queue = [];
+    queue.unshift(root);
+    while (queue.length > 0) {
+        const levelLen = queue.length;
+        for (let i = 0; i < levelLen; i++) {
+            const node = queue.pop();
+            if (!node.left && !node.right) return minHeight;
+            node.left && queue.unshift(node.left);
+            node.right && queue.unshift(node.right);
+        }
+        minHeight++;
+    }
+    return minHeight;
+};
+```
+
+> https://leetcode-cn.com/problems/minimum-depth-of-binary-tree/
+
+### 完全二叉树的节点个数
+
+```javascript
+const countNodes = function (root) {
+
+    if (!root) return 0;
+
+    let leftHeight = 0;
+    let rightHeight = 0;
+    let left = root, right = root;
+
+    while (left) {//计算左树高度
+        leftHeight++;
+        left = left.left;
+    }
+
+    while (right) {//计算右树高度
+        rightHeight++;
+        right = right.right;
+    }
+
+    if (leftHeight === rightHeight) {//如果左右树高度相同，二叉树满节点
+        return Math.pow(2, leftHeight) - 1;//满节点计算公式
+    }
+
+    return 1 + countNodes(root.left) + countNodes(root.right);
+};
+```
+
+> https://leetcode-cn.com/problems/count-complete-tree-nodes/
+
+### 数组转树
+
+```javascript
+const arr = [
+   {
+     val: 1,
+   },
+   {
+     val: 2
+   },
+   {
+     val: 3,
+     parent: 1,
+   },
+   {
+     val: 4,
+     parent: 2,
+   },
+   {
+     val: 5,
+     parent: 3,
+   },
+   {
+     val: 6,
+     parent: 4,
+   },
+   {
+     val: 7,
+     parent: 5,
+   }
+];
+
+const arrayToTree = (arr) => {
+  const toTree = (arr, parent) => {
+    const children = [];
+    for (const item of arr) {
+      if (item.parent === parent) {
+        children.push({
+          val: item.val,
+          children: toTree(arr, item.val)
+        });
+      }
+    }
+    return children;
+  }
+  const tree = {
+    val: -1,
+    children: arr.filter(item => !item.parent).map(item => ({ val: item.val, children: toTree(arr, item.val) }))
+  }
+  return tree;
+}
+const tree = arrayToTree(arr);
+```
+
+
+
+
+
+## 动态规划
+
+### 斐波拉契数列
+
+`dp[0]=1,dp[1]=1`
+
+`dp[i]=dp[i-1]+dp[i-2]`
+
+```javascript
+const fib = function (n) {
+    const dp = [0, 1];
+    for (let i = 2; i <= n; i++) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+    return dp[n];
+};
+```
+
+> https://leetcode-cn.com/problems/fibonacci-number/
+
+### 零钱兑换
+
+* `dp[i-face]+1 = dp[i]`
+* `dp[i]`筹齐`i`需要的最少零钱个数
+
+```javascript
+const coinChange = function (coins, n) {
+    if (n < 1) return 0;
+    const dp = [0];
+    for (let i = 1; i <= n; i++) {
+        let minCount = Number.MAX_VALUE;
+        for (const face of coins) {
+            if (i < face) continue;
+            minCount = Math.min(minCount, dp[i - face] + 1);
+        }
+        dp[i] = minCount;//筹齐i分需要的最少硬币个数
+    }
+    return dp[n] > n ? -1 : dp[n];
+};
+```
+
+> https://leetcode-cn.com/problems/coin-change/submissions/
+
+### 爬楼梯
+
+```javascript
+/**
+ * @param {number} n
+ * @return {number}
+ */
+const climbStairs = function (n) {
+    const dp = [1, 1];
+    for (let i = 1; i <= n; i++) {
+        dp[i] = dp[i - 1] + (dp[i - 2] || 0);
+    }
+    return dp[n];
+};
+```
+
+> https://leetcode-cn.com/problems/climbing-stairs/
+
+## 回溯
+
+### 全排列
+
+```javascript
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+const permute = function (nums) {
+    const result = [];
+    const dfs = (nums, track = []) => {
+        if (track.length === nums.length) {
+            result.push(track.slice());//枚举一组够了就放入结果
+            return;
+        }
+        for (const item of nums) {
+            if (track.includes(item)) continue;//避免重复
+            track.push(item);
+            dfs(nums, track);
+            track.pop();//回溯的时候移出数组元素，方便后面继续做选择
+        }
+    }
+    dfs(nums);
+    return result;
+};
+```
+
+> https://leetcode-cn.com/problems/permutations/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
