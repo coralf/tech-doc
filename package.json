@@ -1,7 +1,7 @@
 {
   "name": "tech-doc",
   "version": "1.0.0",
-  "description": "```    npm i docsify-cli -g ```",
+  "description": "前端技术栈",
   "main": "index.js",
   "directories": {
     "doc": "docs"
