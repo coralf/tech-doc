@@ -6,11 +6,11 @@
 
 ## React生命周期
 
-### React 16之前的生命周期
+### React 15生命周期
 
-![5287253-315eac1c26082f08](assets/5287253-315eac1c26082f08.png)
+![5287253-315eac1c26082f08](assets/react-life-cycle-15.png)
 
-### React 16+的生命周期
+### React 16+生命周期
 
 **1、挂载阶段**
 
@@ -34,15 +34,19 @@ props改变、state改变、调用foreUpdate方法这三种情况组件会发生
 
 - componentWillUnmount()
 
-![image-20210221135604894](./assets/image-20210221135604894.png)
+![image-20210221135604894](./assets/react-life-cycle-16.png)
 
 > https://projects.wojtekmaj.pl/react-lifecycle-methods-diagram/
 
-### React16+ 后移出的生命周期
+### React16+ 移除的生命周期
 
-由于fiber架构更新组件的任务是可以被中断的，这样就会导致生命周期方法被多次调用执行，React 16 + 移出了`componentWillMount`、`componentWillReceiveProps`、`componentWillUpdate`,并使用静态方法
+由于fiber架构更新组件的任务是可以被中断的，这样就会导致生命周期方法被多次调用执行。
+
+React 16 + 移除了`componentWillMount`、`componentWillReceiveProps`,并使用静态方法
 
 `static getDerivedStateFromProps(props, state)`替代。
+
+移除`componentWillUpdate` 使用静态方法 `getSnapshotBeforeUpdate`替代
 
 
 
@@ -59,6 +63,16 @@ props改变、state改变、调用foreUpdate方法这三种情况组件会发生
 * Fiber更新是可中断的
 * 优先级
 
+### Reconciler 执行阶段
+
+#### 1、Reconciliation阶段
+
+生成fiber树得到更新节点的信息，这个阶段可打断
+
+#### 2、commit阶段
+
+将需要更新的节点进行批量更新，这个阶段不可打断
+
 ### 优先级的任务调度
 
 * synchronous：同步执行（首屏、首次渲染）
@@ -67,8 +81,6 @@ props改变、state改变、调用foreUpdate方法这三种情况组件会发生
 * hight : 不久的将来执行
 * low : 表示优先级低，延迟执行
 * offscreen : 下一次render，或者scroll (滚动) 的时候执行
-
-
 
 ## React 源码分析
 
@@ -249,25 +261,27 @@ class App extends React.Component {
 
 `handling event on document`
 
-
-
-
-
-
-
 # redux
 
+## redux执行原理
 
+1、用户在进行操作，通过dispatch触发action
 
+2、action找到对应的reducer获取新的状态值
 
+3、将新的状态更新到store , store通知页面渲染
 
 # mobx
 
+## mobx执行原理
 
+1、通过action去触发数据更新
 
+2、action修改mobx的状态数据
 
+3、状态更新后，computed计算属性也会根据依赖重新计算属性值
 
-# react-router
+4、状态更新完成后出发reaction从而更新页面数据
 
 
 
